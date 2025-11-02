@@ -32,3 +32,12 @@ end)
 Net.AddEvent("weapon", function(weapon_id, player)
     player:GetNetPlayer():GiveWeapon(weapon_id, 500, WeaponSlot.Primary)
 end)
+
+Event.Add("OnPlayerQuit", function(player)
+    local pId = player:GetNetId()
+
+    if vehicles[pId] then
+        World.Destroy(vehicles[pId])
+        vehicles[pId] = nil
+    end
+end)

@@ -3,14 +3,14 @@ local WEBVIEW_ID = "spawn_menu_ui"
 local webview_created = false
 local activeWindow = false
 
+local WINDOW_POS_REL = vec2(0.5, 0.5)
+local WINDOW_SIZE_REL = vec2(0.45, 0.6)
+
 function CreateWebView()
     local screenSize = Render.GetSize()
 
-    local width = screenSize.x * 0.45
-    local height = screenSize.y * 0.6
-
-    local size = vec2(width, height)
-    local pos = (screenSize / 2) - (size / 2)
+    local size = vec2(WINDOW_SIZE_REL.x * screenSize.x, WINDOW_SIZE_REL.y * screenSize.y)
+    local pos = vec2(WINDOW_POS_REL.x * screenSize.x - size.x / 2, WINDOW_POS_REL.y * screenSize.y - size.y / 2)
 
     local created = WebView.Create(WEBVIEW_ID, {
         url = wv_url,
