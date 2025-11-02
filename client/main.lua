@@ -5,7 +5,11 @@ local activeWindow = false
 
 function CreateWebView()
     local screenSize = Render.GetSize()
-    local size = vec2(860, 640)
+
+    local width = screenSize.x * 0.45
+    local height = screenSize.y * 0.6
+
+    local size = vec2(width, height)
     local pos = (screenSize / 2) - (size / 2)
 
     local created = WebView.Create(WEBVIEW_ID, {
