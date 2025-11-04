@@ -318,13 +318,15 @@
                         }
 
                         itemDiv.addEventListener('click', (event) => {
+                            const itemData = currentCategoryData.items[itemIndex];
                             selectItem(
                                 parseInt(event.target.dataset.parentIndex),
                                 event.target.dataset.subIndex ? parseInt(event.target.dataset.subIndex) : -1,
                                 parseInt(event.target.dataset.itemIndex),
-                                event.target.dataset.itemId,
-                                event.target.dataset.itemType,
-                                event.target.textContent
+                                itemData.id,
+                                itemData.slot,
+                                itemDiv.dataset.itemType,
+                                itemData.name
                             );
                         });
                         contentDiv.appendChild(itemDiv);
@@ -353,7 +355,7 @@
                 updateSpawnButton();
             }
 
-            function selectItem(parentIndex, subIndex, itemIndex, itemId, itemType, itemName) {
+            function selectItem(parentIndex, subIndex, itemIndex, itemId, itemSlot, itemType, itemName) {
                 const previouslySelectedItem = document.querySelector('.item.selected');
                 if (previouslySelectedItem) {
                     previouslySelectedItem.classList.remove('selected');
@@ -369,14 +371,7 @@
                     currentItem.classList.add('selected');
                 }
 
-                selectedItem = {
-                    parentIndex: parentIndex,
-                    subIndex: subIndex,
-                    itemIndex: itemIndex,
-                    id: itemId,
-                    type: itemType,
-                    name: itemName
-                };
+                selectedItem = { parentIndex, subIndex, itemIndex, id: itemId, slot: itemSlot, type: itemType, name: itemName };
                 updateSpawnButton();
             }
 

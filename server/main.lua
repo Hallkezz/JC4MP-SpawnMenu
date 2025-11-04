@@ -29,8 +29,8 @@ Net.AddEvent("spawnMg", function(id, position)
     World.SpawnMountedGun(id, position)
 end)
 
-Net.AddEvent("weapon", function(weapon_id, player)
-    player:GetNetPlayer():GiveWeapon(weapon_id, 500, WeaponSlot.Primary)
+Net.AddEvent("weapon", function(weapon_id, weapon_slot, player)
+    player:GetNetPlayer():GiveWeapon(weapon_id, 500, weapon_slot)
 end)
 
 Event.Add("OnPlayerQuit", function(player)

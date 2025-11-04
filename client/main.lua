@@ -39,7 +39,7 @@ function CreateWebView()
                         elseif data.type == "skin" then
                             Local.SetSkin(data.id)
                         elseif data.type == "weapon" then
-                            Net.Send("weapon", data.id, Players.LocalClient())
+                            Net.Send("weapon", data.id, data.slot, Players.LocalClient())
                         end
                         SetVisible(false)
                     end
