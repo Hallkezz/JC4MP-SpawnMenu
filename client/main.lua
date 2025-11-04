@@ -1,4 +1,4 @@
-local wv_url = "resource://SpawnMenu/client/window.html"
+local wv_url = "resource://" .. Resource.Name .. "/client/window.html"
 local WEBVIEW_ID = "spawn_menu_ui"
 local webview_created = false
 local activeWindow = false
