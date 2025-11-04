@@ -306,7 +306,7 @@ const spawnlist = {
             type: "parent",
             subcategories: [
                 {
-                    name: "Primary",
+                    name: "Primary Slot",
                     type: "weapon",
                     items: [
                         { separator: true, name: "Main" },
@@ -349,7 +349,7 @@ const spawnlist = {
                     ]
                 },
                 {
-                    name: "Secondary",
+                    name: "Secondary Slot",
                     type: "weapon",
                     items: [
                         { separator: true, name: "Main" },
