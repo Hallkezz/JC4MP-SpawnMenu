@@ -129,6 +129,7 @@
             cursor: pointer;
             border-radius: 4px;
             margin-bottom: 2px;
+            font-size: 15px;
             transition: background-color 0.2s;
         }
 
@@ -424,7 +425,34 @@
                 }
             });
 
-            setActiveCategory(0);
+            function initKeyHandler(toggleKeyCode) {
+                document.addEventListener('keyup', (event) => {
+                    if (event.keyCode === toggleKeyCode) {
+                        if (window.JC4MP?.isAvailable?.()) {
+                            window.JC4MP.sendMessage("ui:close");
+                        }
+                    }
+                });
+            }
+
+            function initJC4MP() {
+                if (window.JC4MP) {
+                    window.JC4MP.onMessage = function (event, data) {
+                        if (event === 'init') {
+                            initKeyHandler(data.toggle_key);
+                            setActiveCategory(0);
+                        }
+                    };
+
+                    if (window.JC4MP.isAvailable && window.JC4MP.isAvailable()) {
+                        window.JC4MP.sendMessage("ui:ready");
+                    }
+                } else {
+                    setTimeout(initJC4MP, 1);
+                }
+            }
+
+            initJC4MP();
         </script>
 </body>
 

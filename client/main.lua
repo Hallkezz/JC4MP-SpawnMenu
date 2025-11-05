@@ -1,10 +1,13 @@
-local wv_url = "resource://" .. Resource.Name .. "/client/window.html"
+local TOGGLE_KEY = Key.V
+
+local WV_URL = "resource://" .. Resource.Name .. "/client/window.html"
 local WEBVIEW_ID = "spawn_menu_ui"
-local webview_created = false
-local activeWindow = false
 
 local WINDOW_POS_REL = vec2(0.5, 0.5)
-local WINDOW_SIZE_REL = vec2(0.45, 0.6)
+local WINDOW_SIZE_REL = vec2(0.45, 0.55)
+
+local webview_created = false
+local activeWindow = false
 
 function CreateWebView()
     local screenSize = Render.GetSize()
@@ -13,7 +16,7 @@ function CreateWebView()
     local pos = vec2(WINDOW_POS_REL.x * screenSize.x - size.x / 2, WINDOW_POS_REL.y * screenSize.y - size.y / 2)
 
     local created = WebView.Create(WEBVIEW_ID, {
-        url = wv_url,
+        url = WV_URL,
         position = pos,
         size = size,
         visible = true,
@@ -25,7 +28,11 @@ function CreateWebView()
         webview_created = true
 
         WebView.SetMessageHandler(WEBVIEW_ID, function(event, data)
-            if event == "spawn:item" then
+            if event == "ui:ready" then
+                WebView.SendMessage(WEBVIEW_ID, "init", {
+                    toggle_key = TOGGLE_KEY
+                })
+            elseif event == "spawn:item" then
                 if data and data.id and data.type then
                     local player = Players.LocalPlayer()
                     if player then
@@ -56,10 +63,17 @@ function SetVisible(visible)
         return
     end
 
+    WebView.BlurAll()
+
     activeWindow = visible
     WebView.SetVisible(WEBVIEW_ID, visible)
     WebView.SetInputEnabled(WEBVIEW_ID, visible)
+
     UI.SetCursorVisible(visible)
+
+    Timer.Set(function()
+        WebView.Focus(WEBVIEW_ID)
+    end, 1, 1)
 end
 
 function ToggleSpawnMenu()
@@ -83,7 +97,7 @@ function OnResourceStop(resourceName)
 end
 
 Event.Add("OnKeyUp", function(key)
-    if key == Key.V then
+    if key == TOGGLE_KEY then
         ToggleSpawnMenu()
     end
 end)
